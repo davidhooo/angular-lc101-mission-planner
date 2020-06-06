@@ -7,6 +7,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class CrewComponent implements OnInit {
   memberBeingEdited: object = null;
+  duplicateMember: boolean = false;
   
   crew: object[] = [
     {name: "Eileen Collins", firstMission: false},
@@ -19,7 +20,15 @@ export class CrewComponent implements OnInit {
   ngOnInit() {}
 
   add(memberName: string, isFirst: boolean) {
-    this.crew.push({name: memberName, firstMission: isFirst});
+    for (let member of this.crew) {
+      if (member['name'] === memberName) {
+       this.duplicateMember = true;
+      }
+    }
+    if (this.duplicateMember === false) {
+      this.crew.push({name: memberName, firstMission: isFirst});
+    }
+    this.duplicateMember = false
   }
 
   remove(member: object) {
